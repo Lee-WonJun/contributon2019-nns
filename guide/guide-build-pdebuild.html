@@ -1,0 +1,111 @@
+<h4 id="0prerequisites">0. Prerequisites</h4>
+
+<pre><code class="bash language-bash">$ sudo apt install pbuilder debootstrap devscripts
+</code></pre>
+
+<h4 id="1createpbuilderrcwhichaconfigurationfileforpbuilder">1. Create <code>.pbuilderrc</code>, which a configuration file for <em>pbuilder</em></h4>
+
+<pre><code class="bash language-bash">$ ls ~/.pbuilderrc
+ls: cannot access '/home/wook/.pbuilderrc': No such file or directory
+</code></pre>
+
+<ul>
+<li>For Ubuntu 18.04 (bionic),</li>
+</ul>
+
+<pre><code class="bash language-bash">$ cat &lt;&lt; EOF &gt; ~/.pbuilderrc
+&gt; DISTRIBUTION=bionic
+&gt; COMPONENTS="main restricted universe multiverse"
+&gt; OTHERMIRROR="deb http://archive.ubuntu.com/ubuntu bionic-backports universe | deb [trusted=yes] http://ppa.launchpad.net/nnstreamer/ppa/ubuntu bionic main"
+&gt; EOF
+</code></pre>
+
+<ul>
+<li>For Ubuntu 16.04 (xenial),</li>
+</ul>
+
+<pre><code class="bash language-bash">$ cat &lt;&lt; EOF &gt; ~/.pbuilderrc
+&gt; DISTRIBUTION=xenial
+&gt; COMPONENTS="main restricted universe multiverse"
+&gt; OTHERMIRROR="deb http://archive.ubuntu.com/ubuntu xenial-backports universe | deb [trusted=yes] http://ppa.launchpad.net/nnstreamer/ppa/ubuntu xenial main"
+&gt; EOF
+</code></pre>
+
+<ul>
+<li>You can see that <code>.pbuilderrc</code> is located in your home directory.</li>
+</ul>
+
+<pre><code class="bash language-bash">$ ls ~/.pbuilderrc 
+/home/wook/.pbuilderrc
+$ cat ~/.pbuilderrc 
+DISTRIBUTION=bionic
+COMPONENTS="main restricted universe multiverse"
+OTHERMIRROR="deb http://archive.ubuntu.com/ubuntu bionic-backports universe | deb [trusted=yes] http://ppa.launchpad.net/nnstreamer/ppa/ubuntu bionic main"
+</code></pre>
+
+<h4 id="2createabasetgzforubuntu1804orubuntu1604">2. Create a base.tgz for Ubuntu 18.04 or Ubuntu 16.04</h4>
+
+<pre><code class="bash language-bash">$ sudo ln -s ~/.pbuilderrc  /root/.pbuilderrc
+$ sudo pbuilder create
+I: Distribution is bionic.
+I: Current time: Fri Sep 20 22:40:18 KST 2019
+I: pbuilder-time-stamp: 1568986818
+I: Building the build environment
+I: running debootstrap
+/usr/sbin/debootstrap
+I: Retrieving InRelease 
+I: Checking Release signature
+I: Valid Release signature (key id 790BC7277767219C42C86F933B4FE6ACC0B21F32)
+I: Retrieving Packages 
+I: Validating Packages 
+I: Resolving dependencies of required packages...
+I: Resolving dependencies of base packages...
+...omission...
+I: creating base tarball [/var/cache/pbuilder/base.tgz]
+I: cleaning the build env 
+I: removing directory /var/cache/pbuilder/build/19414 and its subdirectories
+</code></pre>
+
+<h4 id="3generatedebianpackagefilesdebfornnstreamer">3. Generate debian package files (.deb) for NNStreamer</h4>
+
+<pre><code class="bash language-bash">$ pdebuild
+$ time pdebuild
+dh clean --parallel
+   debian/rules override_dh_auto_clean
+make[1]: Entering directory '/home/wook/Work/nnstreamer'
+rm -rf build
+make[1]: Leaving directory '/home/wook/Work/nnstreamer'
+   dh_clean
+dpkg-source: warning: no source format specified in debian/source/format, see dpkg-source(1)
+dpkg-source: warning: source directory 'nnstreamer' is not &lt;sourcepackage&gt;-&lt;upstreamversion&gt; 'nnstreamer-0.3.0.0'
+dpkg-source: info: using source format '1.0'
+dpkg-source: info: building nnstreamer in nnstreamer_0.3.0.0.tar.gz
+dpkg-source: info: building nnstreamer in nnstreamer_0.3.0.0.dsc
+I: Generating source changes file for original dsc
+dpkg-genchanges: info: including full source code in upload
+I: pbuilder: network access will be disabled during build
+I: Current time: Fri Sep 20 22:46:08 KST 2019
+I: pbuilder-time-stamp: 1568987168
+I: Building the build Environment
+...omission...
+I: copying local configuration
+I: Copying back the cached apt archive contents
+I: unmounting dev/ptmx filesystem
+I: unmounting dev/pts filesystem
+I: unmounting dev/shm filesystem
+I: unmounting proc filesystem
+I: unmounting sys filesystem
+I: cleaning the build env 
+I: removing directory /var/cache/pbuilder/build/11971 and its subdirectories
+I: Current time: Fri Sep 20 22:49:22 KST 2019
+I: pbuilder-time-stamp: 1568987362
+
+real    3m16.039s
+user    3m34.430s
+sys    0m27.615s
+</code></pre>
+
+<h4 id="qwherearethegenerateddebfiles">Q. Where are the generated .deb files?</h4>
+
+<pre><code class="bash language-bash">$ ls -al /var/cache/pbuilder/result/*.deb
+</code></pre>

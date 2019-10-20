@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<head>
+
+<body>
+ 
+  <div>
+    <h4 id="0prerequisites">0. Prerequisites</h4>
+
+    <pre><code class="bash language-bash">$ sudo apt-add-repository ppa:nnstreamer
+    $ sudo apt install devscripts git equivs
+    
+    $ mkdir -p ~/Work
+    $ cd ~/Work
+    
+    $ git clone https://github.com/nnsuite/nnstreamer.git
+    Cloning into 'nnstreamer'...
+    remote: Enumerating objects: 32, done.
+    remote: Counting objects: 100% (32/32), done.
+    remote: Compressing objects: 100% (26/26), done.
+    remote: Total 9766 (delta 12), reused 16 (delta 5), pack-reused 9734
+    Receiving objects: 100% (9766/9766), 25.32 MiB | 8.81 MiB/s, done.
+    Resolving deltas: 100% (6572/6572), done.
+    
+    $ ls
+    nnstreamer
+    </code></pre>
+    
+    <h4 id="1letscreateapackagesatisfyingnnstreamersbuilddependencies">1. Let's create a package satisfying NNStreamer's build-dependencies</h4>
+    
+    <pre><code class="bash language-bash">$ cd nnstreamer
+    
+    $ mk-build-deps -i ./debian/control --root-cmd sudo
+    dh_testdir
+    dh_testroot
+    dh_prep
+    dh_testdir
+    dh_testroot
+    dh_install
+    dh_installdocs
+    dh_installchangelogs
+    dh_compress
+    dh_fixperms
+    dh_installdeb
+    dh_gencontrol
+    dh_md5sums
+    dh_builddeb
+    dpkg-deb: building package 'nnstreamer-build-deps' in '../nnstreamer-build-deps_0.3.0.0_amd64.deb'.
+    
+    The package has been created.
+    Attention, the package has been created in the current directory,
+    not in ".." as indicated by the message above!
+    (Reading database ... 181103 files and directories currently installed.)
+    Preparing to unpack nnstreamer-build-deps_0.3.0.0_amd64.deb ...
+    Unpacking nnstreamer-build-deps (0.3.0.0) over (0.3.0.0) ...
+    Reading package lists... Done
+    Building dependency tree       
+    Reading state information... Done
+    Correcting dependencies...Starting pkgProblemResolver with broken count: 0
+    Starting 2 pkgProblemResolver with broken count: 0
+    Done
+     Done
+    Starting pkgProblemResolver with broken count: 0
+    Starting 2 pkgProblemResolver with broken count: 0
+    Done
+    The following additional packages will be installed:
+    ...omission...
+    Setting up libgstreamer1.0-dev:amd64 (1.14.5-0ubuntu1~18.04.1) ...
+    Setting up libgstreamer-plugins-base1.0-dev:amd64 (1.14.5-0ubuntu1~18.04.1) ...
+    Setting up nnstreamer-build-deps (0.3.0.0) ...
+    </code></pre>
+    
+    <h4 id="2dobuildusingmesonandninja">2. Do build using meson and ninja</h4>
+    
+    <pre><code class="bash language-bash">$ meson build
+    The Meson build system
+    Version: 0.50.1
+    Source dir: /home/wook/Work/nnstreamer
+    Build dir: /home/wook/Work/nnstreamer/build
+    Build type: native build
+    Project name: nnstreamer
+    Project version: 0.3.0
+    Native C compiler: cc (gcc 7.4.0 "cc (Ubuntu 7.4.0-1ubuntu1~18.04.1) 7.4.0")
+    Native C++ compiler: c++ (gcc 7.4.0 "c++ (Ubuntu 7.4.0-1ubuntu1~18.04.1) 7.4.0")
+    Build machine cpu family: x86_64
+    Build machine cpu: x86_64
+    Compiler for C supports arguments -Wredundant-decls: YES
+    Compiler for C++ supports arguments -Wredundant-decls: YES
+    Compiler for C supports arguments -Wwrite-strings: YES
+    Compiler for C++ supports arguments -Wwrite-strings: YES
+    Compiler for C supports arguments -Wformat: YES
+    Compiler for C++ supports arguments -Wformat: YES
+    Compiler for C supports arguments -Wformat-nonliteral: YES
+    Compiler for C++ supports arguments -Wformat-nonliteral: YES
+    Compiler for C supports arguments -Wformat-security: YES
+    Compiler for C++ supports arguments -Wformat-security: YES
+    Compiler for C supports arguments -Winit-self: YES
+    Compiler for C++ supports arguments -Winit-self: YES
+    Compiler for C supports arguments -Waddress: YES
+    Compiler for C++ supports arguments -Waddress: YES
+    Compiler for C supports arguments -Wno-multichar -Wmultichar: YES
+    Compiler for C++ supports arguments -Wno-multichar -Wmultichar: YES
+    Compiler for C supports arguments -Wvla: YES
+    Compiler for C++ supports arguments -Wvla: YES
+    Compiler for C supports arguments -Wpointer-arith: YES
+    Compiler for C++ supports arguments -Wpointer-arith: YES
+    Compiler for C supports arguments -Wmissing-declarations: YES
+    Compiler for C supports arguments -Wmissing-prototypes: YES
+    Compiler for C supports arguments -Wnested-externs: YES
+    Compiler for C supports arguments -Waggregate-return: YES
+    Compiler for C supports arguments -Wold-style-definition: YES
+    Compiler for C supports arguments -Wdeclaration-after-statement: YES
+    Found pkg-config: /usr/bin/pkg-config (0.29.1)
+    Dependency glib-2.0 found: YES 2.56.4
+    Dependency gobject-2.0 found: YES 2.56.4
+    Dependency gstreamer-1.0 found: YES 1.14.5
+    Dependency gstreamer-base-1.0 found: YES 1.14.5
+    Dependency gstreamer-controller-1.0 found: YES 1.14.5
+    Dependency gstreamer-video-1.0 found: YES 1.14.5
+    Dependency gstreamer-audio-1.0 found: YES 1.14.5
+    Dependency gstreamer-app-1.0 found: YES 1.14.5
+    Dependency gstreamer-check-1.0 found: YES 1.14.5
+    Library m found: YES
+    Library dl found: YES
+    Dependency threads found: YES 
+    Dependency protobuf found: YES 3.6.1
+    Dependency orc-0.4 found: YES 0.4.28
+    Program orcc found: YES (/usr/bin/orcc)
+    Dependency tensorflow found: YES 1.13.1
+    Dependency tensorflow-lite found: YES 1.13.1
+    Dependency pytorch found: YES 1.1.0
+    Dependency caffe2 found: YES 1.1.0
+    Program pkg-config found: YES (/usr/bin/pkg-config)
+    Dependency python-2.7 found: YES 2.7
+    Has header "numpy/arrayobject.h" : YES
+    Dependency python3 found: YES 3.6
+    Has header "numpy/arrayobject.h" : YES
+    Dependency opencv found: YES 3.2.0
+    Dependency libpng found: YES 1.6.34
+    Program cp found: YES (/bin/cp)
+    Dependency GTest found: YES (building self)
+    Configuring nnstreamer-test.ini using configuration
+    Configuring nnstreamer.ini using configuration
+    Configuring nnstreamer.pc using configuration
+    Build targets in project: 44
+    Found ninja-1.8.2 at /usr/bin/ninja
+    
+    $ ninja -C build
+    ninja: Entering directory `build'
+    [146/146] Linking target tests/unittest_src_iio.
+    </code></pre>
+    
+    <p>The target files are placed in <code>./build</code>.</p>
+    
+    <pre><code class="bash language-bash">$ cd build
+    $ ls -l
+    total 352
+    drwxrwxr-x  2 wook wook   4096  9월 20 22:11 api
+    -rw-rw-r--  1 wook wook 177566  9월 20 22:11 build.ninja
+    -rw-rw-r--  1 wook wook 131870  9월 20 22:11 compile_commands.json
+    drwxrwxr-x  3 wook wook   4096  9월 20 22:11 ext
+    drwxrwxr-x  3 wook wook   4096  9월 20 22:11 gst
+    drwxrwxr-x  2 wook wook   4096  9월 20 22:11 meson-info
+    drwxrwxr-x  2 wook wook   4096  9월 20 22:11 meson-logs
+    drwxrwxr-x  2 wook wook   4096  9월 20 22:11 meson-private
+    drwxrwxr-x  8 wook wook   4096  9월 20 22:11 nnstreamer_example
+    -rw-rw-r--  1 wook wook    663  9월 20 22:11 nnstreamer.ini
+    -rw-rw-r--  1 wook wook    371  9월 20 22:11 nnstreamer.pc
+    -rw-rw-r--  1 wook wook    664  9월 20 22:11 nnstreamer-test.ini
+    drwxrwxr-x 10 wook wook   4096  9월 20 22:12 tests
+    </code></pre>
+
+  </div>
+</body>

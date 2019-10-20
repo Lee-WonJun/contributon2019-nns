@@ -1,0 +1,43 @@
+<h4 id="prerequisites">Prerequisites</h4>
+<p>If you&#39;ve already done some of the following steps in #1 and #2, just skip those steps.</p>
+<pre><code class="lang-bash">$ sudo apt-<span class="hljs-built_in">add</span>-repository <span class="hljs-keyword">pp</span><span class="hljs-variable">a:nnstreamer</span>
+$ sudo apt install nnstreamer-*
+$ sudo apt install gstreamer1.<span class="hljs-number">0</span>-plugins-base gstreamer1.<span class="hljs-number">0</span>-plugins-good gstreamer1.<span class="hljs-number">0</span>-plugins-<span class="hljs-keyword">bad</span>
+
+$ git clone http<span class="hljs-variable">s:</span>//github.<span class="hljs-keyword">com</span>/nnsuite/nnstreamer-example.git
+$ <span class="hljs-keyword">cd</span> nnstreamer-example
+</code></pre>
+<h4 id="tensorflow-lite">TensorFlow-Lite</h4>
+<ol>
+<li><p>Prepare model files</p>
+<pre><code class="lang-bash">$ <span class="hljs-string">cd </span><span class="hljs-string">bash_script/</span><span class="hljs-string">example_object_detection_tensorflow_lite
+</span>$ <span class="hljs-string">bash </span>../<span class="hljs-string">example_models/</span><span class="hljs-built_in">get-model-object-detection-tflite.sh</span>
+...<span class="hljs-string">omission.</span>..
+<span class="hljs-string">2019-09-</span><span class="hljs-string">22 </span><span class="hljs-string">00:13:</span><span class="hljs-string">00 </span>(<span class="hljs-string">15.</span>7 <span class="hljs-string">MB/</span>s) - ‘<span class="hljs-string">ssd_mobilenet_v2_coco.</span><span class="hljs-string">tflite’</span> <span class="hljs-string">saved </span>[<span class="hljs-string">67312764/</span><span class="hljs-string">67312764]</span>
+...<span class="hljs-string">omission.</span>..
+<span class="hljs-string">2019-09-</span><span class="hljs-string">22 </span><span class="hljs-string">00:13:</span><span class="hljs-string">01 </span>(<span class="hljs-string">61.</span>4 <span class="hljs-string">MB/</span>s) - ‘<span class="hljs-string">coco_labels_list.</span><span class="hljs-string">txt’</span> <span class="hljs-string">saved </span>[<span class="hljs-string">665/</span><span class="hljs-string">665]</span>
+...<span class="hljs-string">omission.</span>..
+<span class="hljs-string">2019-09-</span><span class="hljs-string">22 </span><span class="hljs-string">00:13:</span><span class="hljs-string">02 </span>(<span class="hljs-string">600 </span><span class="hljs-string">KB/</span>s) - ‘<span class="hljs-string">box_priors.</span><span class="hljs-string">txt’</span> <span class="hljs-string">saved </span>[<span class="hljs-string">76932/</span><span class="hljs-string">76932]</span>
+</code></pre>
+</li>
+<li><p>Run</p>
+<pre><code class="lang-bash">$ ./gst-<span class="hljs-built_in">launch</span>-object-detection-tflite.sh
+</code></pre>
+</li>
+</ol>
+<h4 id="tensorflow">TensorFlow</h4>
+<ol>
+<li><p>Prepare model files</p>
+<pre><code class="lang-bash">$ <span class="hljs-string">cd </span><span class="hljs-string">bash_script/</span><span class="hljs-string">example_object_detection_tensorflow
+</span>$ <span class="hljs-string">bash </span>../<span class="hljs-string">example_models/</span><span class="hljs-built_in">get-model-object-detection-tf.sh</span>
+...<span class="hljs-string">omission.</span>..
+<span class="hljs-string">2019-09-</span><span class="hljs-string">22 </span><span class="hljs-string">00:28:</span><span class="hljs-string">32 </span>(<span class="hljs-string">11.</span>1 <span class="hljs-string">MB/</span>s) - ‘<span class="hljs-string">ssdlite_mobilenet_v2.</span><span class="hljs-string">pb’</span> <span class="hljs-string">saved </span>[<span class="hljs-string">19911343/</span><span class="hljs-string">19911343]</span>
+...<span class="hljs-string">omission.</span>..
+<span class="hljs-string">2019-09-</span><span class="hljs-string">22 </span><span class="hljs-string">00:28:</span><span class="hljs-string">33 </span>(<span class="hljs-string">70.</span>4 <span class="hljs-string">MB/</span>s) - ‘<span class="hljs-string">coco_labels_list.</span><span class="hljs-string">txt’</span> <span class="hljs-string">saved </span>[<span class="hljs-string">665/</span><span class="hljs-string">665]</span>
+</code></pre>
+</li>
+<li><p>Run
+```bash
+$ ./gst-launch-object-detection-tf.sh</p>
+</li>
+</ol>

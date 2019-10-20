@@ -1,0 +1,157 @@
+<h4 id="0-prerequisites">0. Prerequisites</h4>
+<pre><code class="lang-bash">$ sudo apt-add-repository <span class="hljs-string">ppa:</span>nnstreamer
+$ sudo apt install devscripts git equivs
+
+$ mkdir -p ~/Work
+$ cd ~/Work
+
+$ git clone <span class="hljs-string">https:</span><span class="hljs-comment">//github.com/nnsuite/nnstreamer.git</span>
+Cloning into <span class="hljs-string">'nnstreamer'</span>...
+<span class="hljs-string">remote:</span> Enumerating <span class="hljs-string">objects:</span> <span class="hljs-number">32</span>, done.
+<span class="hljs-string">remote:</span> Counting <span class="hljs-string">objects:</span> <span class="hljs-number">100</span>% (<span class="hljs-number">32</span>/<span class="hljs-number">32</span>), done.
+<span class="hljs-string">remote:</span> Compressing <span class="hljs-string">objects:</span> <span class="hljs-number">100</span>% (<span class="hljs-number">26</span>/<span class="hljs-number">26</span>), done.
+<span class="hljs-string">remote:</span> Total <span class="hljs-number">9766</span> (delta <span class="hljs-number">12</span>), reused <span class="hljs-number">16</span> (delta <span class="hljs-number">5</span>), pack-reused <span class="hljs-number">9734</span>
+Receiving <span class="hljs-string">objects:</span> <span class="hljs-number">100</span>% (<span class="hljs-number">9766</span><span class="hljs-regexp">/9766), 25.32 MiB | 8.81 MiB/</span>s, done.
+Resolving <span class="hljs-string">deltas:</span> <span class="hljs-number">100</span>% (<span class="hljs-number">6572</span>/<span class="hljs-number">6572</span>), done.
+
+$ ls
+nnstreamer
+</code></pre>
+<h4 id="1-let-s-create-a-package-satisfying-nnstreamer-s-build-dependencies">1. Let&#39;s create a package satisfying NNStreamer&#39;s build-dependencies</h4>
+<pre><code class="lang-bash">$ cd nnstreamer
+
+$ mk<span class="hljs-params">-build</span><span class="hljs-params">-deps</span> <span class="hljs-params">-i</span> ./debian/control -<span class="hljs-params">-root</span><span class="hljs-params">-cmd</span> sudo
+dh_testdir
+dh_testroot
+dh_prep
+dh_testdir
+dh_testroot
+dh_install
+dh_installdocs
+dh_installchangelogs
+dh_compress
+dh_fixperms
+dh_installdeb
+dh_gencontrol
+dh_md5sums
+dh_builddeb
+dpkg<span class="hljs-params">-deb</span>: building package <span class="hljs-string">'nnstreamer-build-deps'</span> <span class="hljs-keyword">in</span> <span class="hljs-string">'../nnstreamer-build-deps_0.3.0.0_amd64.deb'</span>.
+
+The package has been created.
+Attention, the package has been created <span class="hljs-keyword">in</span> the current directory,
+<span class="hljs-literal">not</span> <span class="hljs-keyword">in</span> <span class="hljs-string">".."</span> as indicated <span class="hljs-keyword">by</span> the message above!
+(Reading database <span class="hljs-params">...</span> <span class="hljs-number">181103</span> files <span class="hljs-literal">and</span> directories currently installed.)
+Preparing <span class="hljs-keyword">to</span> unpack nnstreamer<span class="hljs-params">-build</span><span class="hljs-params">-deps_0.3.0.0_amd64.deb</span> <span class="hljs-params">...</span>
+Unpacking nnstreamer<span class="hljs-params">-build</span><span class="hljs-params">-deps</span> (<span class="hljs-number">0.3</span><span class="hljs-number">.0</span><span class="hljs-number">.0</span>) over (<span class="hljs-number">0.3</span><span class="hljs-number">.0</span><span class="hljs-number">.0</span>) <span class="hljs-params">...</span>
+Reading package lists<span class="hljs-params">...</span> Done
+Building dependency tree       
+Reading state information<span class="hljs-params">...</span> Done
+Correcting dependencies<span class="hljs-params">...</span>Starting pkgProblemResolver <span class="hljs-keyword">with</span> broken count: <span class="hljs-number">0</span>
+Starting <span class="hljs-number">2</span> pkgProblemResolver <span class="hljs-keyword">with</span> broken count: <span class="hljs-number">0</span>
+Done
+ Done
+Starting pkgProblemResolver <span class="hljs-keyword">with</span> broken count: <span class="hljs-number">0</span>
+Starting <span class="hljs-number">2</span> pkgProblemResolver <span class="hljs-keyword">with</span> broken count: <span class="hljs-number">0</span>
+Done
+The following additional packages will be installed:
+<span class="hljs-params">...</span>omission<span class="hljs-params">...</span>
+Setting up libgstreamer1<span class="hljs-number">.0</span><span class="hljs-params">-dev</span>:amd64 (<span class="hljs-number">1.14</span><span class="hljs-number">.5</span><span class="hljs-number">-0</span>ubuntu1~<span class="hljs-number">18.04</span><span class="hljs-number">.1</span>) <span class="hljs-params">...</span>
+Setting up libgstreamer<span class="hljs-params">-plugins</span><span class="hljs-params">-base1.0</span><span class="hljs-params">-dev</span>:amd64 (<span class="hljs-number">1.14</span><span class="hljs-number">.5</span><span class="hljs-number">-0</span>ubuntu1~<span class="hljs-number">18.04</span><span class="hljs-number">.1</span>) <span class="hljs-params">...</span>
+Setting up nnstreamer<span class="hljs-params">-build</span><span class="hljs-params">-deps</span> (<span class="hljs-number">0.3</span><span class="hljs-number">.0</span><span class="hljs-number">.0</span>) <span class="hljs-params">...</span>
+</code></pre>
+<h4 id="2-do-build-using-meson-and-ninja">2. Do build using meson and ninja</h4>
+<pre><code class="lang-bash">$ meson build
+<span class="hljs-attribute">The Meson build system
+Version</span>: 0.50.1
+<span class="hljs-attribute">Source dir</span>: /home/wook/Work/nnstreamer
+<span class="hljs-attribute">Build dir</span>: /home/wook/Work/nnstreamer/build
+<span class="hljs-attribute">Build type</span>: native build
+<span class="hljs-attribute">Project name</span>: nnstreamer
+<span class="hljs-attribute">Project version</span>: 0.3.0
+<span class="hljs-attribute">Native C compiler</span>: cc (gcc 7.4.0 "cc (Ubuntu 7.4.0-1ubuntu1~18.04.1) 7.4.0")
+<span class="hljs-attribute">Native C++ compiler</span>: c++ (gcc 7.4.0 "c++ (Ubuntu 7.4.0-1ubuntu1~18.04.1) 7.4.0")
+<span class="hljs-attribute">Build machine cpu family</span>: x86_64
+<span class="hljs-attribute">Build machine cpu</span>: x86_64
+<span class="hljs-attribute">Compiler for C supports arguments -Wredundant-decls</span>: YES
+<span class="hljs-attribute">Compiler for C++ supports arguments -Wredundant-decls</span>: YES
+<span class="hljs-attribute">Compiler for C supports arguments -Wwrite-strings</span>: YES
+<span class="hljs-attribute">Compiler for C++ supports arguments -Wwrite-strings</span>: YES
+<span class="hljs-attribute">Compiler for C supports arguments -Wformat</span>: YES
+<span class="hljs-attribute">Compiler for C++ supports arguments -Wformat</span>: YES
+<span class="hljs-attribute">Compiler for C supports arguments -Wformat-nonliteral</span>: YES
+<span class="hljs-attribute">Compiler for C++ supports arguments -Wformat-nonliteral</span>: YES
+<span class="hljs-attribute">Compiler for C supports arguments -Wformat-security</span>: YES
+<span class="hljs-attribute">Compiler for C++ supports arguments -Wformat-security</span>: YES
+<span class="hljs-attribute">Compiler for C supports arguments -Winit-self</span>: YES
+<span class="hljs-attribute">Compiler for C++ supports arguments -Winit-self</span>: YES
+<span class="hljs-attribute">Compiler for C supports arguments -Waddress</span>: YES
+<span class="hljs-attribute">Compiler for C++ supports arguments -Waddress</span>: YES
+<span class="hljs-attribute">Compiler for C supports arguments -Wno-multichar -Wmultichar</span>: YES
+<span class="hljs-attribute">Compiler for C++ supports arguments -Wno-multichar -Wmultichar</span>: YES
+<span class="hljs-attribute">Compiler for C supports arguments -Wvla</span>: YES
+<span class="hljs-attribute">Compiler for C++ supports arguments -Wvla</span>: YES
+<span class="hljs-attribute">Compiler for C supports arguments -Wpointer-arith</span>: YES
+<span class="hljs-attribute">Compiler for C++ supports arguments -Wpointer-arith</span>: YES
+<span class="hljs-attribute">Compiler for C supports arguments -Wmissing-declarations</span>: YES
+<span class="hljs-attribute">Compiler for C supports arguments -Wmissing-prototypes</span>: YES
+<span class="hljs-attribute">Compiler for C supports arguments -Wnested-externs</span>: YES
+<span class="hljs-attribute">Compiler for C supports arguments -Waggregate-return</span>: YES
+<span class="hljs-attribute">Compiler for C supports arguments -Wold-style-definition</span>: YES
+<span class="hljs-attribute">Compiler for C supports arguments -Wdeclaration-after-statement</span>: YES
+<span class="hljs-attribute">Found pkg-config</span>: /usr/bin/pkg-config (0.29.1)
+<span class="hljs-attribute">Dependency glib-2.0 found</span>: YES 2.56.4
+<span class="hljs-attribute">Dependency gobject-2.0 found</span>: YES 2.56.4
+<span class="hljs-attribute">Dependency gstreamer-1.0 found</span>: YES 1.14.5
+<span class="hljs-attribute">Dependency gstreamer-base-1.0 found</span>: YES 1.14.5
+<span class="hljs-attribute">Dependency gstreamer-controller-1.0 found</span>: YES 1.14.5
+<span class="hljs-attribute">Dependency gstreamer-video-1.0 found</span>: YES 1.14.5
+<span class="hljs-attribute">Dependency gstreamer-audio-1.0 found</span>: YES 1.14.5
+<span class="hljs-attribute">Dependency gstreamer-app-1.0 found</span>: YES 1.14.5
+<span class="hljs-attribute">Dependency gstreamer-check-1.0 found</span>: YES 1.14.5
+<span class="hljs-attribute">Library m found</span>: YES
+<span class="hljs-attribute">Library dl found</span>: YES
+<span class="hljs-attribute">Dependency threads found</span>: YES 
+<span class="hljs-attribute">Dependency protobuf found</span>: YES 3.6.1
+<span class="hljs-attribute">Dependency orc-0.4 found</span>: YES 0.4.28
+<span class="hljs-attribute">Program orcc found</span>: YES (/usr/bin/orcc)
+<span class="hljs-attribute">Dependency tensorflow found</span>: YES 1.13.1
+<span class="hljs-attribute">Dependency tensorflow-lite found</span>: YES 1.13.1
+<span class="hljs-attribute">Dependency pytorch found</span>: YES 1.1.0
+<span class="hljs-attribute">Dependency caffe2 found</span>: YES 1.1.0
+<span class="hljs-attribute">Program pkg-config found</span>: YES (/usr/bin/pkg-config)
+<span class="hljs-attribute">Dependency python-2.7 found</span>: YES 2.7
+<span class="hljs-attribute">Has header "numpy/arrayobject.h" </span>: YES
+<span class="hljs-attribute">Dependency python3 found</span>: YES 3.6
+<span class="hljs-attribute">Has header "numpy/arrayobject.h" </span>: YES
+<span class="hljs-attribute">Dependency opencv found</span>: YES 3.2.0
+<span class="hljs-attribute">Dependency libpng found</span>: YES 1.6.34
+<span class="hljs-attribute">Program cp found</span>: YES (/bin/cp)
+<span class="hljs-attribute">Dependency GTest found</span>: YES (building self)
+<span class="hljs-attribute">Configuring nnstreamer-test.ini using configuration
+Configuring nnstreamer.ini using configuration
+Configuring nnstreamer.pc using configuration
+Build targets in project</span>: 44
+<span class="hljs-attribute">Found ninja-1.8.2 at /usr/bin/ninja
+
+$ ninja -C build
+ninja</span>: Entering directory `build'
+[146/146] Linking target tests/unittest_src_iio.
+</code></pre>
+<p>The target files are placed in <code>./build</code>.</p>
+<pre><code class="lang-bash">$ cd build
+$ ls -l
+total 352
+drwxrwxr-x <span class="hljs-number"> 2 </span>wook wook  <span class="hljs-number"> 4096 </span> 9월<span class="hljs-number"> 20 </span>22:11 api
+-rw-rw-r-- <span class="hljs-number"> 1 </span>wook wook<span class="hljs-number"> 177566 </span> 9월<span class="hljs-number"> 20 </span>22:11 build.ninja
+-rw-rw-r-- <span class="hljs-number"> 1 </span>wook wook<span class="hljs-number"> 131870 </span> 9월<span class="hljs-number"> 20 </span>22:11 compile_commands.json
+drwxrwxr-x <span class="hljs-number"> 3 </span>wook wook  <span class="hljs-number"> 4096 </span> 9월<span class="hljs-number"> 20 </span>22:11 ext
+drwxrwxr-x <span class="hljs-number"> 3 </span>wook wook  <span class="hljs-number"> 4096 </span> 9월<span class="hljs-number"> 20 </span>22:11 gst
+drwxrwxr-x <span class="hljs-number"> 2 </span>wook wook  <span class="hljs-number"> 4096 </span> 9월<span class="hljs-number"> 20 </span>22:11 meson-info
+drwxrwxr-x <span class="hljs-number"> 2 </span>wook wook  <span class="hljs-number"> 4096 </span> 9월<span class="hljs-number"> 20 </span>22:11 meson-logs
+drwxrwxr-x <span class="hljs-number"> 2 </span>wook wook  <span class="hljs-number"> 4096 </span> 9월<span class="hljs-number"> 20 </span>22:11 meson-private
+drwxrwxr-x <span class="hljs-number"> 8 </span>wook wook  <span class="hljs-number"> 4096 </span> 9월<span class="hljs-number"> 20 </span>22:11 nnstreamer_example
+-rw-rw-r-- <span class="hljs-number"> 1 </span>wook wook   <span class="hljs-number"> 663 </span> 9월<span class="hljs-number"> 20 </span>22:11 nnstreamer.ini
+-rw-rw-r-- <span class="hljs-number"> 1 </span>wook wook   <span class="hljs-number"> 371 </span> 9월<span class="hljs-number"> 20 </span>22:11 nnstreamer.pc
+-rw-rw-r-- <span class="hljs-number"> 1 </span>wook wook   <span class="hljs-number"> 664 </span> 9월<span class="hljs-number"> 20 </span>22:11 nnstreamer-test.ini
+drwxrwxr-x<span class="hljs-number"> 10 </span>wook wook  <span class="hljs-number"> 4096 </span> 9월<span class="hljs-number"> 20 </span>22:12 tests
+</code></pre>

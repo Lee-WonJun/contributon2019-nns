@@ -1,0 +1,143 @@
+<h4 id="prerequisites">Prerequisites</h4>
+<p>If you&#39;ve already done some of the following steps in #1 and #2, just skip those steps.</p>
+<pre><code class="lang-bash">$ sudo apt-<span class="hljs-built_in">add</span>-repository <span class="hljs-keyword">pp</span><span class="hljs-variable">a:nnstreamer</span>
+$ sudo apt install nnstreamer-*
+$ sudo apt install gstreamer1.<span class="hljs-number">0</span>-plugins-base gstreamer1.<span class="hljs-number">0</span>-plugins-good gstreamer1.<span class="hljs-number">0</span>-plugins-<span class="hljs-keyword">bad</span>
+
+$ git clone http<span class="hljs-variable">s:</span>//github.<span class="hljs-keyword">com</span>/nnsuite/nnstreamer-example.git
+$ <span class="hljs-keyword">cd</span> nnstreamer-example
+</code></pre>
+<h4 id="tensorflow-lite">TensorFlow-Lite</h4>
+<ol>
+<li><p>Prepare model files</p>
+<pre><code class="lang-bash">$ <span class="hljs-string">cd </span><span class="hljs-string">bash_script/</span><span class="hljs-string">example_object_detection_tensorflow_lite
+</span>$ <span class="hljs-string">bash </span>../<span class="hljs-string">example_models/</span><span class="hljs-built_in">get-model-object-detection-tflite.sh</span>
+...<span class="hljs-string">omission.</span>..
+<span class="hljs-string">2019-09-</span><span class="hljs-string">22 </span><span class="hljs-string">00:13:</span><span class="hljs-string">00 </span>(<span class="hljs-string">15.</span>7 <span class="hljs-string">MB/</span>s) - ‘<span class="hljs-string">ssd_mobilenet_v2_coco.</span><span class="hljs-string">tflite’</span> <span class="hljs-string">saved </span>[<span class="hljs-string">67312764/</span><span class="hljs-string">67312764]</span>
+...<span class="hljs-string">omission.</span>..
+<span class="hljs-string">2019-09-</span><span class="hljs-string">22 </span><span class="hljs-string">00:13:</span><span class="hljs-string">01 </span>(<span class="hljs-string">61.</span>4 <span class="hljs-string">MB/</span>s) - ‘<span class="hljs-string">coco_labels_list.</span><span class="hljs-string">txt’</span> <span class="hljs-string">saved </span>[<span class="hljs-string">665/</span><span class="hljs-string">665]</span>
+...<span class="hljs-string">omission.</span>..
+<span class="hljs-string">2019-09-</span><span class="hljs-string">22 </span><span class="hljs-string">00:13:</span><span class="hljs-string">02 </span>(<span class="hljs-string">600 </span><span class="hljs-string">KB/</span>s) - ‘<span class="hljs-string">box_priors.</span><span class="hljs-string">txt’</span> <span class="hljs-string">saved </span>[<span class="hljs-string">76932/</span><span class="hljs-string">76932]</span>
+</code></pre>
+</li>
+<li><p>Run</p>
+<pre><code class="lang-bash">$ ./gst-<span class="hljs-built_in">launch</span>-object-detection-tflite.sh
+</code></pre>
+</li>
+</ol>
+<h4 id="tensorflow">TensorFlow</h4>
+<ol>
+<li>Prepare model files
+```bash
+$ cd bash_script/example_object_detection_tensorflow
+$ bash ../example_models/get-model-ob#### Prerequisites
+If you&#39;ve already done some of the following steps in #1 and #2, just skip those steps.</li>
+</ol>
+<pre><code class="lang-bash">$ sudo apt-add-repository ppa:nnstreamer
+$ sudo apt install git meson ninja-build cmake
+$ sudo apt install nnstreamer-*
+$ sudo apt install libglib2<span class="hljs-number">.0</span>-<span class="hljs-built_in">dev</span> libgstreamer1<span class="hljs-number">.0</span>-<span class="hljs-built_in">dev</span> libgstreamer-plugins-base1<span class="hljs-number">.0</span>-<span class="hljs-built_in">dev</span> gstreamer1<span class="hljs-number">.0</span>-plugins-base gstreamer1<span class="hljs-number">.0</span>-plugins-good,
+$ sudo apt install tensorflow-c-<span class="hljs-built_in">dev</span> tensorflow-c-<span class="hljs-built_in">dev</span> protobuf-<span class="hljs-built_in">dev</span> libcairo2-<span class="hljs-built_in">dev</span> libopencv-<span class="hljs-built_in">dev</span>
+
+$ git clone https:<span class="hljs-comment">//github.com/nnsuite/nnstreamer-example.git</span>
+$ cd nnstreamer-example
+</code></pre>
+<h4 id="build">Build</h4>
+<pre><code class="lang-bash">$ meson build
+The Meson build system
+<span class="hljs-string">Version:</span> <span class="hljs-number">0.50</span><span class="hljs-number">.1</span>
+Source <span class="hljs-string">dir:</span> <span class="hljs-regexp">/home/</span>wook<span class="hljs-regexp">/Work/</span>nnstreamer-example
+Build <span class="hljs-string">dir:</span> <span class="hljs-regexp">/home/</span>wook<span class="hljs-regexp">/Work/</span>nnstreamer-example/build
+Build <span class="hljs-string">type:</span> native build
+Project <span class="hljs-string">name:</span> nnstreamer-example
+Project <span class="hljs-string">version:</span> <span class="hljs-number">0.1</span><span class="hljs-number">.0</span>
+Native C <span class="hljs-string">compiler:</span> cc (gcc <span class="hljs-number">7.4</span><span class="hljs-number">.0</span> <span class="hljs-string">"cc (Ubuntu 7.4.0-1ubuntu1~18.04.1) 7.4.0"</span>)
+Native C++ <span class="hljs-string">compiler:</span> c++ (gcc <span class="hljs-number">7.4</span><span class="hljs-number">.0</span> <span class="hljs-string">"c++ (Ubuntu 7.4.0-1ubuntu1~18.04.1) 7.4.0"</span>)
+Build machine cpu <span class="hljs-string">family:</span> x86_64
+Build machine <span class="hljs-string">cpu:</span> x86_64
+Found pkg-<span class="hljs-string">config:</span> <span class="hljs-regexp">/usr/</span>bin/pkg-config (<span class="hljs-number">0.29</span><span class="hljs-number">.1</span>)
+Dependency glib<span class="hljs-number">-2.0</span> <span class="hljs-string">found:</span> YES <span class="hljs-number">2.56</span><span class="hljs-number">.4</span>
+Dependency gstreamer<span class="hljs-number">-1.0</span> <span class="hljs-string">found:</span> YES <span class="hljs-number">1.14</span><span class="hljs-number">.5</span>
+Dependency gstreamer-base<span class="hljs-number">-1.0</span> <span class="hljs-string">found:</span> YES <span class="hljs-number">1.14</span><span class="hljs-number">.5</span>
+Dependency gstreamer-video<span class="hljs-number">-1.0</span> <span class="hljs-string">found:</span> YES <span class="hljs-number">1.14</span><span class="hljs-number">.5</span>
+Dependency gstreamer-audio<span class="hljs-number">-1.0</span> <span class="hljs-string">found:</span> YES <span class="hljs-number">1.14</span><span class="hljs-number">.5</span>
+Dependency gstreamer-app<span class="hljs-number">-1.0</span> <span class="hljs-string">found:</span> YES <span class="hljs-number">1.14</span><span class="hljs-number">.5</span>
+Dependency cairo <span class="hljs-string">found:</span> YES <span class="hljs-number">1.15</span><span class="hljs-number">.10</span>
+Library m <span class="hljs-string">found:</span> YES
+Library dl <span class="hljs-string">found:</span> YES
+Dependency threads <span class="hljs-string">found:</span> YES 
+Dependency nnstreamer <span class="hljs-string">found:</span> YES <span class="hljs-number">0.3</span><span class="hljs-number">.0</span>
+Dependency tensorflow <span class="hljs-string">found:</span> YES <span class="hljs-number">1.13</span><span class="hljs-number">.1</span>
+Dependency protobuf <span class="hljs-string">found:</span> YES <span class="hljs-number">3.6</span><span class="hljs-number">.1</span>
+Dependency tensorflow-lite <span class="hljs-string">found:</span> YES <span class="hljs-number">1.13</span><span class="hljs-number">.1</span>
+Dependency caffe2 <span class="hljs-string">found:</span> YES <span class="hljs-number">1.1</span><span class="hljs-number">.0</span>
+Has header <span class="hljs-string">"nnstreamer/tensor_filter_custom.h"</span> : YES
+Build targets <span class="hljs-keyword">in</span> <span class="hljs-string">project:</span> <span class="hljs-number">12</span>
+</code></pre>
+<pre><code class="lang-bash"><span class="hljs-variable">$ </span>ninja -C build
+</code></pre>
+<h4 id="run">Run</h4>
+<pre><code class="lang-bash"><span class="hljs-variable">$ </span>cd build/native
+<span class="hljs-variable">$ </span>ls -<span class="hljs-number">1</span>
+example_cam
+example_decoder_image_labelling
+example_filter_performance_profile
+example_image_classification_caffe2
+example_image_classification_tflite
+example_object_detection_tensorflow
+example_object_detection_tensorflow_lite
+example_sink
+example_speech_command_tensorflow_lite
+example_two_tensor_stream
+</code></pre>
+<ol>
+<li>Basic examples</li>
+<li>example_cam<pre><code class="lang-bash"><span class="hljs-variable">$ </span>pushd example_cam
+<span class="hljs-variable">$ </span>./nnstreamer_example_cam 
+<span class="hljs-variable">$ </span>popd
+</code></pre>
+</li>
+<li><p>example_sink</p>
+<pre><code class="lang-bash"><span class="hljs-variable">$ </span>pushd example_sink
+<span class="hljs-variable">$ </span>./nnstreamer_sink_example_play 
+<span class="hljs-variable">$ </span>popd
+</code></pre>
+</li>
+<li><p>Object detection examples</p>
+</li>
+<li><p>example_object_detection_tensorflow</p>
+<pre><code class="lang-bash">$ <span class="hljs-string">pushd </span><span class="hljs-string">example_object_detection_tensorflow
+</span>$ <span class="hljs-string">bash </span>../../../<span class="hljs-string">bash_script/</span><span class="hljs-string">example_models/</span><span class="hljs-built_in">get-model-object-detection-tf.sh</span> 
+$ ./<span class="hljs-string">nnstreamer_example_object_detection_tf
+</span>$ <span class="hljs-string">popd</span>
+</code></pre>
+</li>
+<li><p>example_object_detection_tensorflow_lite</p>
+<pre><code class="lang-bash">$ <span class="hljs-string">pushd </span><span class="hljs-string">example_object_detection_tensorflow_lite
+</span>$ <span class="hljs-string">bash </span>../../../<span class="hljs-string">bash_script/</span><span class="hljs-string">example_models/</span><span class="hljs-built_in">get-model-object-detection-tflite.sh</span> 
+$ ./<span class="hljs-string">nnstreamer_example_object_detection_tflite </span>
+$ <span class="hljs-string">popd</span>
+</code></pre>
+</li>
+<li><p>example_filter_performance_profile: <strong>skipped</strong></p>
+</li>
+<li><p>Image classification examples</p>
+</li>
+<li>example_image_classification_tflite<pre><code class="lang-bash">$ <span class="hljs-string">pushd </span><span class="hljs-string">example_image_classification_tflite
+</span>$ <span class="hljs-string">bash </span>../../../<span class="hljs-string">bash_script/</span><span class="hljs-string">example_models/</span><span class="hljs-built_in">get-model-image-classification-tflite.sh</span> 
+$ ./<span class="hljs-string">nnstreamer_example_image_classification_tflite </span>
+$ <span class="hljs-string">popd</span>
+</code></pre>
+</li>
+<li><p>example_image_classification_caffe2: <strong>skipped</strong>ject-detection-tf.sh
+...omission...
+2019-09-22 00:28:32 (11.1 MB/s) - ‘ssdlite_mobilenet_v2.pb’ saved [19911343/19911343]
+...omission...
+2019-09-22 00:28:33 (70.4 MB/s) - ‘coco_labels_list.txt’ saved [665/665]
+```</p>
+</li>
+<li><p>Run
+```bash
+$ ./gst-launch-object-detection-tf.sh</p>
+</li>
+</ol>
